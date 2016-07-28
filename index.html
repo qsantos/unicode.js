@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+body{max-width:30em;margin:0 auto;background-color:#eee;}
+pre{background-color:black;color:white;padding:.5em;}
+</style>
+<noscript>
+<br>
+<h3>You will need to enable Javascript first!</h3>
+<br>
+</noscript>
+<p>For the demonstraction, open your Javascript console (Ctrl+Shift+K), and type:<p>
+<pre>"hello world".title()</pre>
+<p>You should see:</p>
+<pre>"Hello World"</pre>
+<script type="text/javascript" src="unicodetype_db.js"></script>
+<script type="text/javascript" src="unicodectype.js"></script>
+<script type="text/javascript" src="unicodeobject.js"></script>
+<script type="text/javascript" src="unicode.js"></script>
+<!--
+unicodetype_db.js, unicodectype.js and unicodeobject.js are direct translations
+from the Python 3.5.2 codebase. In particular, unicodeobject.js exports:
+
+* unicode_title()
+* unicode_capitalize()
+* unicode_casefold()
+* unicode_islower()
+* unicode_isupper()
+* unicode_istitle()
+* unicode_isspace()
+* unicode_isalpha()
+* unicode_isalnum()
+* unicode_isdecimal()
+* unicode_isdigit()
+* unicode_isnumeric()
+* unicode_isidentifier()
+* unicode_isprintable()
+* unicode_lower()
+* unicode_swapcase()
+* unicode_upper()
+
+Each takes a string as single argument. unicode.js simply maps them directly
+onto String.prototype.
+-->
