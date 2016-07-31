@@ -1,3 +1,5 @@
+"use strict";
+
 // Translated from Python 3.5.2 codebase, Objects/unicodectype.c
 // Original License:
 /*

@@ -1,3 +1,4 @@
+"use strict";
 unicode = unicode || {}
 
 // Translated from Python 3.5.2 codebase, Objects/unicodeobject.c
