@@ -1,3 +1,5 @@
+unicode = unicode || {}
+
 // Translated from Python 3.5.2 codebase, Objects/unicodeobject.c
 // Original License:
 /*
@@ -51,7 +53,7 @@ function _PyUnicode_IsAlnum(ch)
  * Return a titlecased version of S, i.e. words start with title case
  * characters, all remaining cased characters have lower case.
  */
-function unicode_title(self)
+unicode.title = function(self)
 {
     var res = "";
     var previous_is_cased = false;
@@ -112,7 +114,7 @@ function lower_ucs4(c, self, i)
  * Return a capitalized version of S, i.e. make the first character
  * have upper case and the rest lower case.
  */
-function unicode_capitalize(self)
+unicode.capitalize = function(self)
 {
     var res = "";
     res += _PyUnicode_ToUpperFull(self.charAt(0));
@@ -125,7 +127,7 @@ function unicode_capitalize(self)
 /*
  * Return a version of S suitable for caseless comparisons.
  */
-function unicode_casefold(self)
+unicode.casefold = function(self)
 {
     var res = "";
     for (var i = 0; i < self.length; i++) {
@@ -138,7 +140,7 @@ function unicode_casefold(self)
  * Return True if all cased characters in S are lowercase and there is
  * at least one cased character in S, False otherwise.
  */
-function unicode_islower(self)
+unicode.islower = function(self)
 {
     if (self == "") {
         return false;
@@ -158,7 +160,7 @@ function unicode_islower(self)
  * Return True if all cased characters in S are uppercase and there is
  * at least one cased character in S, False otherwise.
  */
-function unicode_isupper(self)
+unicode.isupper = function(self)
 {
     if (self == "") {
         return false;
@@ -179,7 +181,7 @@ function unicode_isupper(self)
  * follow uncased characters and lowercase characters only cased ones.
  * Return False otherwise.
  */
-function unicode_istitle(self)
+unicode.istitle = function(self)
 {
     if (self == "") {
         return false;
@@ -215,7 +217,7 @@ function unicode_istitle(self)
  * Return True if all characters in S are whitespace
  * and there is at least one character in S, False otherwise.
  */
-function unicode_isspace(self)
+unicode.isspace = function(self)
 {
     if (self == "") {
         return false;
@@ -234,7 +236,7 @@ function unicode_isspace(self)
  * Return True if all characters in S are alphabetic
  * and there is at least one character in S, False otherwise.
  */
-function unicode_isalpha(self)
+unicode.isalpha = function(self)
 {
     if (self == "") {
         return false;
@@ -253,7 +255,7 @@ function unicode_isalpha(self)
  * Return True if all characters in S are alphanumeric
  * and there is at least one character in S, False otherwise.
  */
-function unicode_isalnum(self)
+unicode.isalnum = function(self)
 {
     if (self == "") {
         return false;
@@ -272,7 +274,7 @@ function unicode_isalnum(self)
  * Return True if there are only decimal characters in S,
  * False otherwise.
  */
-function unicode_isdecimal(self)
+unicode.isdecimal = function(self)
 {
     if (self == "") {
         return false;
@@ -291,7 +293,7 @@ function unicode_isdecimal(self)
  * Return True if all characters in S are digits
  * and there is at least one character in S, False otherwise.
  */
-function unicode_isdigit(self)
+unicode.isdigit = function(self)
 {
     if (self == "") {
         return false;
@@ -310,7 +312,7 @@ function unicode_isdigit(self)
  * Return True if there are only numeric characters in S,
  * False otherwise.
  */
-function unicode_isnumeric(self)
+unicode.isnumeric = function(self)
 {
     if (self == "") {
         return false;
@@ -325,7 +327,7 @@ function unicode_isnumeric(self)
     return true;
 }
 
-function unicode_isidentifier(self)
+unicode.isidentifier = function(self)
 {
     if (self == "") {
         return false;
@@ -355,7 +357,7 @@ function unicode_isidentifier(self)
  * Return True if all characters in S are considered
  * printable in repr() or S is empty, False otherwise.
  */
-function unicode_isprintable(self)
+unicode.isprintable = function(self)
 {
     for (var i = 0; i < self.length; i++) {
         if (!_PyUnicode_IsPrintable(self.charAt(i))) {
@@ -368,7 +370,7 @@ function unicode_isprintable(self)
 /*
  * Return a copy of the string S converted to lowercase.
  */
-function unicode_lower(self)
+unicode.lower = function(self)
 {
     var res = "";
     for (var i = 0; i < self.length; i++) {
@@ -382,7 +384,7 @@ function unicode_lower(self)
  * Return a copy of S with uppercase characters converted to lowercase\n\
  * and vice versa.");
  */
-function unicode_swapcase(self)
+unicode.swapcase = function(self)
 {
     var res = "";
     for (var i = 0; i < self.length; i++) {
@@ -405,7 +407,7 @@ function unicode_swapcase(self)
 /*
  * Return a copy of S converted to uppercase.");
  */
-function unicode_upper(self)
+unicode.upper = function(self)
 {
     var res = "";
     for (var i = 0; i < self.length; i++) {
