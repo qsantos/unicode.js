@@ -504,8 +504,8 @@ def makeunicodetype(unicode, trace):
 
     print("/* type indexes */", file=fp)
     print("var SHIFT =", shift, file=fp)
-    Array("index1", index1).dump(fp, trace)
-    Array("index2", index2).dump(fp, trace)
+    Array("index1", index1).funcdump(fp, trace)
+    Array("index2", index2).funcdump(fp, trace)
 
     # Generate code for _PyUnicode_ToNumeric()
     numeric_items = sorted(numeric.items())
@@ -1214,6 +1214,31 @@ class Array:
             if s.strip():
                 file.write(s + "\n")
         file.write("];\n\n")
+
+    def funcdump(self, file, trace=0):
+        # write data to file, as a JS function
+        if trace:
+            print(self.name+":", len(self.data), file=sys.stderr)
+        file.write("function " + self.name + "(index) {\n")
+        for index, _ in enumerate(self.data):
+            if self.data[index] != index:
+                break
+        if index != 0:
+            file.write("    if (index < %d) return index;\n" % index)
+        file.write("    var aux={\n")
+        while index < len(self.data):
+            value = self.data[index]
+            while index < len(self.data) and self.data[index] == value:
+                index += 1
+            file.write("%d: %d,\n" % (index, value))
+        file.write("    };\n")
+        file.write("    for (var i in aux) {\n"
+                   "        if (index < i) {\n"
+                   "            return aux[i];\n"
+                   "        }\n"
+                   "    }\n"
+                   "}\n\n")
+
 
 def splitbins(t, trace=0):
     """t, trace=0 -> (t1, t2, shift).  Split a table to save space.

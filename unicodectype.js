@@ -37,8 +37,8 @@ function gettyperecord(code)
         index = 0;
     }
     else {
-        index = index1[(code>>SHIFT)];
-        index = index2[(index<<SHIFT)+(code&((1<<SHIFT)-1))];
+        index = index1((code>>SHIFT));
+        index = index2((index<<SHIFT)+(code&((1<<SHIFT)-1)));
     }
 
     return _PyUnicode_TypeRecords[index];
