@@ -381,8 +381,8 @@ unicode.lower = function(self)
 }
 
 /*
- * Return a copy of S with uppercase characters converted to lowercase\n\
- * and vice versa.");
+ * Return a copy of S with uppercase characters converted to lowercase
+ * and vice versa.
  */
 unicode.swapcase = function(self)
 {
@@ -397,14 +397,13 @@ unicode.swapcase = function(self)
         }
         else {
             res += c;
-            mapped = c;
         }
     }
     return res;
 }
 
 /*
- * Return a copy of S converted to uppercase.");
+ * Return a copy of S converted to uppercase.
  */
 unicode.upper = function(self)
 {
