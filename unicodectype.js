@@ -61,7 +61,7 @@ function _PyUnicode_IsTitlecase(ch)
     var code = ch.charCodeAt(0);
     var ctype = gettyperecord(code);
 
-    return (ctype.flags & TITLE_MASK) != 0;
+    return (ctype[TYPE_FLAGS] & TITLE_MASK) != 0;
 }
 
 /* Returns 1 for Unicode characters having the XID_Start property, 0
@@ -72,7 +72,7 @@ function _PyUnicode_IsXidStart(ch)
     var code = ch.charCodeAt(0);
     var ctype = gettyperecord(code);
 
-    return (ctype.flags & XID_START_MASK) != 0;
+    return (ctype[TYPE_FLAGS] & XID_START_MASK) != 0;
 }
 
 /* Returns 1 for Unicode characters having the XID_Continue property,
@@ -83,7 +83,7 @@ function _PyUnicode_IsXidContinue(ch)
     var code = ch.charCodeAt(0);
     var ctype = gettyperecord(code);
 
-    return (ctype.flags & XID_CONTINUE_MASK) != 0;
+    return (ctype[TYPE_FLAGS] & XID_CONTINUE_MASK) != 0;
 }
 
 /* Returns the integer decimal (0-9) for Unicode characters having
@@ -94,7 +94,7 @@ function _PyUnicode_ToDecimalDigit(ch)
     var code = ch.charCodeAt(0);
     var ctype = gettyperecord(code);
 
-    return (ctype.flags & DECIMAL_MASK) ? ctype.decimal : -1;
+    return (ctype[TYPE_FLAGS] & DECIMAL_MASK) ? ctype[TYPE_DECIMAL] : -1;
 }
 
 function _PyUnicode_IsDecimalDigit(ch)
@@ -113,7 +113,7 @@ function _PyUnicode_ToDigit(ch)
     var code = ch.charCodeAt(0);
     var ctype = gettyperecord(code);
 
-    return (ctype.flags & DIGIT_MASK) ? ctype.digit : -1;
+    return (ctype[TYPE_FLAGS] & DIGIT_MASK) ? ctype[TYPE_DIGIT] : -1;
 }
 
 function _PyUnicode_IsDigit(ch)
@@ -132,7 +132,7 @@ function _PyUnicode_IsNumeric(ch)
     var code = ch.charCodeAt(0);
     var ctype = gettyperecord(code);
 
-    return (ctype.flags & NUMERIC_MASK) != 0;
+    return (ctype[TYPE_FLAGS] & NUMERIC_MASK) != 0;
 }
 
 /* Returns 1 for Unicode characters to be hex-escaped when repr()ed,
@@ -153,7 +153,7 @@ function _PyUnicode_IsPrintable(ch)
     var code = ch.charCodeAt(0);
     var ctype = gettyperecord(code);
 
-    return (ctype.flags & PRINTABLE_MASK) != 0;
+    return (ctype[TYPE_FLAGS] & PRINTABLE_MASK) != 0;
 }
 
 /* Returns 1 for Unicode characters having the category 'Ll', 0
@@ -164,7 +164,7 @@ function _PyUnicode_IsLowercase(ch)
     var code = ch.charCodeAt(0);
     var ctype = gettyperecord(code);
 
-    return (ctype.flags & LOWER_MASK) != 0;
+    return (ctype[TYPE_FLAGS] & LOWER_MASK) != 0;
 }
 
 /* Returns 1 for Unicode characters having the category 'Lu', 0
@@ -175,7 +175,7 @@ function _PyUnicode_IsUppercase(ch)
     var code = ch.charCodeAt(0);
     var ctype = gettyperecord(code);
 
-    return (ctype.flags & UPPER_MASK) != 0;
+    return (ctype[TYPE_FLAGS] & UPPER_MASK) != 0;
 }
 
 function _PyUnicode_ToLowerFull(ch)
@@ -183,10 +183,10 @@ function _PyUnicode_ToLowerFull(ch)
     var code = ch.charCodeAt(0);
     var ctype = gettyperecord(code);
 
-    if (ctype.flags & EXTENDED_CASE_MASK) {
-        return extractExtended(ctype.lower & 0xFFFF, ctype.lower >> 24);
+    if (ctype[TYPE_FLAGS] & EXTENDED_CASE_MASK) {
+        return extractExtended(ctype[TYPE_LOWER] & 0xFFFF, ctype[TYPE_LOWER] >> 24);
     }
-    return String.fromCharCode(code + ctype.lower);
+    return String.fromCharCode(code + ctype[TYPE_LOWER]);
 }
 
 function _PyUnicode_ToTitleFull(ch)
@@ -194,10 +194,10 @@ function _PyUnicode_ToTitleFull(ch)
     var code = ch.charCodeAt(0);
     var ctype = gettyperecord(code);
 
-    if (ctype.flags & EXTENDED_CASE_MASK) {
-        return extractExtended(ctype.title & 0xFFFF, ctype.title >> 24);
+    if (ctype[TYPE_FLAGS] & EXTENDED_CASE_MASK) {
+        return extractExtended(ctype[TYPE_TITLE] & 0xFFFF, ctype[TYPE_TITLE] >> 24);
     }
-    return String.fromCharCode(code + ctype.title);
+    return String.fromCharCode(code + ctype[TYPE_TITLE]);
 }
 
 function _PyUnicode_ToUpperFull(ch)
@@ -205,10 +205,10 @@ function _PyUnicode_ToUpperFull(ch)
     var code = ch.charCodeAt(0);
     var ctype = gettyperecord(code);
 
-    if (ctype.flags & EXTENDED_CASE_MASK) {
-        return extractExtended(ctype.upper & 0xFFFF, ctype.upper >> 24);
+    if (ctype[TYPE_FLAGS] & EXTENDED_CASE_MASK) {
+        return extractExtended(ctype[TYPE_UPPER] & 0xFFFF, ctype[TYPE_UPPER] >> 24);
     }
-    return String.fromCharCode(code + ctype.upper);
+    return String.fromCharCode(code + ctype[TYPE_UPPER]);
 }
 
 function _PyUnicode_ToFoldedFull(ch)
@@ -216,9 +216,9 @@ function _PyUnicode_ToFoldedFull(ch)
     var code = ch.charCodeAt(0);
     var ctype = gettyperecord(code);
 
-    if (ctype.flags & EXTENDED_CASE_MASK && (ctype.lower >> 20) & 7) {
-        var index = (ctype.lower & 0xFFFF) + (ctype.lower >> 24);
-        var n = (ctype.lower >> 20) & 7;
+    if (ctype[TYPE_FLAGS] & EXTENDED_CASE_MASK && (ctype[TYPE_LOWER] >> 20) & 7) {
+        var index = (ctype[TYPE_LOWER] & 0xFFFF) + (ctype[TYPE_LOWER] >> 24);
+        var n = (ctype[TYPE_LOWER] >> 20) & 7;
         return extractExtended(index, n);
     }
     return _PyUnicode_ToLowerFull(ch);
@@ -229,7 +229,7 @@ function _PyUnicode_IsCased(ch)
     var code = ch.charCodeAt(0);
     var ctype = gettyperecord(code);
 
-    return (ctype.flags & CASED_MASK) != 0;
+    return (ctype[TYPE_FLAGS] & CASED_MASK) != 0;
 }
 
 function _PyUnicode_IsCaseIgnorable(ch)
@@ -237,7 +237,7 @@ function _PyUnicode_IsCaseIgnorable(ch)
     var code = ch.charCodeAt(0);
     var ctype = gettyperecord(code);
 
-    return (ctype.flags & CASE_IGNORABLE_MASK) != 0;
+    return (ctype[TYPE_FLAGS] & CASE_IGNORABLE_MASK) != 0;
 }
 
 /* Returns 1 for Unicode characters having the category 'Ll', 'Lu', 'Lt',
@@ -248,5 +248,5 @@ function _PyUnicode_IsAlpha(ch)
     var code = ch.charCodeAt(0);
     var ctype = gettyperecord(code);
 
-    return (ctype.flags & ALPHA_MASK) != 0;
+    return (ctype[TYPE_FLAGS] & ALPHA_MASK) != 0;
 }
