@@ -1,3 +1,14 @@
 .*.swp
 unicode.js
 unicode.min.js
+CaseFolding-*.txt
+CompositionExclusions-*.txt
+DerivedCoreProperties-*.txt
+DerivedNormalizationProps-*.txt
+EastAsianWidth-*.txt
+LineBreak-*.txt
+NameAliases-*.txt
+NamedSequences-*.txt
+SpecialCasing-*.txt
+UnicodeData-*.txt
+Unihan-*.zip
