@@ -35,6 +35,7 @@ from textwrap import dedent
 
 SCRIPT = sys.argv[0]
 VERSION = "3.2"
+DEBUG = False  # that might take a while
 
 # The Unicode Database
 # --------------------
@@ -1238,6 +1239,17 @@ class Array:
                    "        }\n"
                    "    }\n"
                    "}\n\n")
+        if DEBUG:
+            fname = self.name
+            self.name += '_check'
+            tname = self.name
+            self.dump(file, trace)
+            file.write('for (var i = 0; i < ' + tname + '.length; i++) {\n'
+                       '    if (' + fname + '(i) != ' + tname + '[i]) {\n'
+                       '        console.log(i);\n'
+                       '    }\n'
+                       '}\n'
+                       'console.log("ok");\n')
 
 
 def splitbins(t, trace=0):
