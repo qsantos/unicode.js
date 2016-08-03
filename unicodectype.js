@@ -99,7 +99,6 @@ function _PyUnicode_ToDecimalDigit(ch)
 
 function _PyUnicode_IsDecimalDigit(ch)
 {
-    var code = ch.charCodeAt(0);
     if (_PyUnicode_ToDecimalDigit(ch) < 0) {
         return 0;
     }
@@ -119,7 +118,6 @@ function _PyUnicode_ToDigit(ch)
 
 function _PyUnicode_IsDigit(ch)
 {
-    var code = ch.charCodeAt(0);
     if (_PyUnicode_ToDigit(ch) < 0) {
         return 0;
     }

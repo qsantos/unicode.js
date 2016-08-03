@@ -60,7 +60,6 @@ unicode.title = function(self)
     var previous_is_cased = false;
     for (var i = 0; i < self.length; i++) {
         var c = self.charAt(i);
-        var mapped;
 
         if (previous_is_cased) {
             res += lower_ucs4(c, self, i);
@@ -390,7 +389,6 @@ unicode.swapcase = function(self)
     var res = "";
     for (var i = 0; i < self.length; i++) {
         var c = self.charAt(i);
-        var mapped;
         if (_PyUnicode_IsUppercase(c)) {
             res += lower_ucs4(c, self, i);
         }
