@@ -146,13 +146,16 @@ unicode.islower = function(self)
         return false;
     }
 
+    var cased = false;
     for (var i = 0; i < self.length; i++) {
         var ch = self.charAt(i);
         if (_PyUnicode_IsUppercase(ch) || _PyUnicode_IsTitlecase(ch)) {
             return false;
+        } else if (!cased) {
+            cased = _PyUnicode_IsLowercase(ch);
         }
     }
-    return true;
+    return cased;
 }
 
 /*
@@ -166,13 +169,16 @@ unicode.isupper = function(self)
         return false;
     }
 
+    var cased = false;
     for (var i = 0; i < self.length; i++) {
         var ch = self.charAt(i);
         if (_PyUnicode_IsLowercase(ch) || _PyUnicode_IsTitlecase(ch)) {
             return false;
+        } else if (!cased) {
+            cased = _PyUnicode_IsUppercase(ch);
         }
     }
-    return true;
+    return cased;
 }
 
 /*
