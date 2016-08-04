@@ -504,6 +504,7 @@ def makeunicodetype(unicode, trace):
     index1, index2, shift = splitbins(index, trace)
 
     print("/* type indexes */", file=fp)
+    Array.prepare_funcdump(fp, trace);
     print("var SHIFT =", shift, file=fp)
     Array("index1", index1).funcdump(fp, trace)
     Array("index2", index2).funcdump(fp, trace)
@@ -1216,30 +1217,62 @@ class Array:
                 file.write(s + "\n")
         file.write("];\n\n")
 
+    @staticmethod
+    def prepare_funcdump(file, trace=0):
+        # define bisect_right() used by funcdump
+        file.write(
+            "function bisect_right(a, x, lo, hi) {\n"
+            "    lo = lo !== undefined ? lo : 0;\n"
+            "    hi = hi !== undefined ? hi : a.length;\n"
+            "    while (lo < hi) {\n"
+            "        var k = (hi + lo) >> 1;\n"
+            "        if (x < a[k]) {\n"
+            "            hi = k;\n"
+            "        } else {\n"
+            "            lo = k + 1;\n"
+            "        }\n"
+            "    }\n"
+            "    return lo;\n"
+            "}\n"
+        )
+
     def funcdump(self, file, trace=0):
         # write data to file, as a JS function
         if trace:
             print(self.name+":", len(self.data), file=sys.stderr)
-        file.write("function " + self.name + "(index) {\n")
+
+        # the index tables often starts with the identity map
+        # find for how long this is true
         for index, _ in enumerate(self.data):
             if self.data[index] != index:
                 break
-        if index != 0:
-            file.write("    if (index < %d) return index;\n" % index)
-        file.write("    var aux={\n")
+        identity_prefix = index
+
+        # group the table by same values
+        indexes = []
+        values = []
         while index < len(self.data):
             value = self.data[index]
             while index < len(self.data) and self.data[index] == value:
                 index += 1
-            file.write("%d: %d,\n" % (index, value))
-        file.write("    };\n")
-        file.write("    for (var i in aux) {\n"
-                   "        if (index < i) {\n"
-                   "            return aux[i];\n"
-                   "        }\n"
-                   "    }\n"
-                   "}\n\n")
+            indexes.append(index)
+            values.append(value)
+
+        # write the necessary arrays
+        Array(self.name + "_indexes", indexes).dump(file, trace)
+        Array(self.name + "_values", values).dump(file, trace)
+
+        # write the function
+        file.write("function " + self.name + "(index) {\n")
+        if identity_prefix != 0:
+            file.write("    if (index < %d) return index;\n" % identity_prefix)
+        file.write(
+            "    var i = bisect_right(" + self.name + "_indexes, index);\n"
+            "    return " + self.name + "_values[i];\n"
+            "}\n\n")
+
         if DEBUG:
+            # check that all values match the original array
             fname = self.name
             self.name += '_check'
             tname = self.name
@@ -1249,7 +1282,7 @@ class Array:
                        '        console.log(i);\n'
                        '    }\n'
                        '}\n'
-                       'console.log("ok");\n')
+                       'console.log("ok");\n\n')
 
 
 def splitbins(t, trace=0):
