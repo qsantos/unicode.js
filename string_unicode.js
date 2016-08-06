@@ -1,0 +1,17 @@
+String.prototype.title = function() { return unicode.title(this); }
+String.prototype.capitalize = function() { return unicode.capitalize(this); }
+String.prototype.casefold = function() { return unicode.casefold(this); }
+String.prototype.islower = function() { return unicode.islower(this); }
+String.prototype.isupper = function() { return unicode.isupper(this); }
+String.prototype.istitle = function() { return unicode.istitle(this); }
+String.prototype.isspace = function() { return unicode.isspace(this); }
+String.prototype.isalpha = function() { return unicode.isalpha(this); }
+String.prototype.isalnum = function() { return unicode.isalnum(this); }
+String.prototype.isdecimal = function() { return unicode.isdecimal(this); }
+String.prototype.isdigit = function() { return unicode.isdigit(this); }
+String.prototype.isnumeric = function() { return unicode.isnumeric(this); }
+String.prototype.isidentifier = function() { return unicode.isidentifier(this); }
+String.prototype.isprintable = function() { return unicode.isprintable(this); }
+String.prototype.lower = function() { return unicode.lower(this); }
+String.prototype.swapcase = function() { return unicode.swapcase(this); }
+String.prototype.upper = function() { return unicode.upper(this); }

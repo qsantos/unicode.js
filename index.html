@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<title>Python's Unicode in the browser!</title>
+<style>
+body{max-width:30em;margin:0 auto;background-color:#eee;}
+pre{background-color:black;color:white;padding:.5em;}
+</style>
+<noscript>
+<br>
+<h3>You will need to enable Javascript first!</h3>
+<br>
+</noscript>
+<p>For the demonstraction, open your Javascript console (Ctrl+Shift+K), and type:<p>
+<pre>"hello world".title()</pre>
+<p>You should see:</p>
+<pre>"Hello World"</pre>
+<script type="text/javascript" src="unicode.min.js"></script>
+<script type="text/javascript" src="string_unicode.js"></script>
+<!--
+Run make.sh to generate unicode.min.js. Available functions are:
+
+* unicode.title()
+* unicode.capitalize()
+* unicode.casefold()
+* unicode.islower()
+* unicode.isupper()
+* unicode.istitle()
+* unicode.isspace()
+* unicode.isalpha()
+* unicode.isalnum()
+* unicode.isdecimal()
+* unicode.isdigit()
+* unicode.isnumeric()
+* unicode.isidentifier()
+* unicode.isprintable()
+* unicode.lower()
+* unicode.swapcase()
+* unicode.upper()
+-->
